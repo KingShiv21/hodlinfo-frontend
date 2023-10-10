@@ -1,27 +1,6 @@
-import axios from "axios";
-import { useState, useEffect } from "react"
+import { apiData } from "./Data"
 
 const App = () => {
-
-  const url = "https://hodlinfo-api-zacp.onrender.com/"
-  let [data, setData] = useState({})
-
-  useEffect(() => {
-
-     axios.get(url).then(
-      (res) => { setData(res.data) }
-    ).catch(e => console.log(e))
-
-  }, [])
-
-  console.log(data.average)
-  const topResults = []
-  const label = []
-  for (let i = 0; i < 10 ; i++) {
-    topResults[i] = data.records[i]
-    label[i] = data.keys[i]
-  }
-
   return (
 
     <div className="  bg-slate-950">
@@ -43,7 +22,7 @@ const App = () => {
       <div className=" text-center font-bold ">
         <div className=" text-gray-800 text-1xl  sm:text-2xl py-1">Best Price to Trade</div>
         <div className=" text-white text-5xl  sm:text-7xl py-1">
-          {data.average}
+          {apiData.average}
         </div>
         <div className=" text-gray-800 text-1xl sm:text-2xl py-2">Average BTC/INR net price including commission</div>
       </div>
@@ -56,7 +35,7 @@ const App = () => {
               <th>Platform</th>
               <th>Last Traded Price</th>
               <th>Buy price</th>
-               <th> Sell Price</th>
+              <th> Sell Price</th>
               <th>Difference</th>
               <th>Savings</th>
             </tr>
@@ -64,31 +43,31 @@ const App = () => {
 
           <tbody className=" text-white text-center break-keep">
             {
-              
-              topResults.map((e,i)=>(
-                
-            <tr className=" my-3 bg-gray-900 border-1 ">
-            <td>
-              {i}
-            </td>
-            <td>
-             {label[i]}
-            </td>
-            <td><span>&#8377;</span>
-              {e.last}
-            </td>
-            <td><span>&#8377;</span>
-              {e.buy} </td>
-              <td> <span>&#8377;</span>
-                {e.sell}
-            </td>
-            <td>
-              {data.percentage[i]}
-            </td>
-            <td><span>&#8377;</span>
-              {data.difference[i]}
-            </td>
-          </tr>
+
+              apiData.records.map((e, i) => (
+
+                <tr key={i+1} className=" my-3 bg-gray-900 border-1 ">
+                  <td>
+                    {i + 1}
+                  </td>
+                  <td>
+                    {apiData.keys[i]}
+                  </td>
+                  <td><span>&#8377;</span>
+                    {e.last}
+                  </td>
+                  <td><span>&#8377;</span>
+                    {e.buy} </td>
+                  <td> <span>&#8377;</span>
+                    {e.sell}
+                  </td>
+                  <td>
+                    {apiData.percentage[i]}
+                  </td>
+                  <td><span>&#8377;</span>
+                    {apiData.difference[i]}
+                  </td>
+                </tr>
               ))
 
             }
