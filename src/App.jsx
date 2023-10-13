@@ -1,8 +1,27 @@
-import { apiData } from "./Data"
+import { useEffect, useState } from "react"
+import axios from "axios";
 
 const App = () => {
-  return (
+  const [apiData, setData] = useState({});
 
+  async function fetchData (){
+    const {data} = await axios.get("https://hodlinfo-api-zacp.onrender.com/" , {
+      headers:{
+        Accept : "application/json"
+      }
+    })
+
+    setData(data)
+  }
+
+  useEffect(() => {
+    fetchData()    
+  }, [])
+  
+  console.log(apiData)
+  
+  return (
+    
     <div className="  bg-slate-950">
       <div className=" py-5 ">
         <div className=" sm:flex flex-row">
@@ -27,7 +46,7 @@ const App = () => {
         <div className=" text-gray-800 text-1xl sm:text-2xl py-2">Average BTC/INR net price including commission</div>
       </div>
 
-      <div className=" overflow-x-auto border-2 border-sky-300 mt-7 ">
+      <div className=" overflow-x-auto border-2  border-sky-300 mt-7 ">
         <table className="text-sm break-keep  w-full sm:text-2xl sm:px-5  border-separate  border-spacing-y-1 border-spacing-x-1 ">
           <thead className="  ">
             <tr className=" bg-sky-950 text-white font-bold">
@@ -37,16 +56,16 @@ const App = () => {
               <th>Buy price</th>
               <th> Sell Price</th>
               <th>Difference</th>
-              <th>Savings</th>
+              <th>Savings and more</th>
             </tr>
           </thead>
 
           <tbody className=" text-white text-center break-keep">
             {
 
-              apiData.records.map((e, i) => (
+              apiData.records?.map((e, i) => (
 
-                <tr key={i+1} className=" my-3 bg-gray-900 border-1 ">
+                <tr key={i + 1} className=" my-3 bg-gray-900 border-1 ">
                   <td>
                     {i + 1}
                   </td>
@@ -83,6 +102,7 @@ const App = () => {
           <div className=" text-center sm:basis-1/6 sm:break-keep">Copyright @ 2019</div>
           <div className=" text-center sm:basis-1/6 sm:text-left">Hodlinfo.com</div>
           <div className=" text-center sm:basis-4/6 sm:text-right sm:mr-5">Support</div>
+          <sub></sub>
         </div>
         <div className=" text-center py-3"><button
           className=" border-2 border-sky-400 py-2 px-2 rounded-md text-sm text-sky-400">Add Hodlinfo to Home
